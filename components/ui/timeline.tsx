@@ -39,10 +39,10 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
         </p>
         <div className="mt-6">
           <a 
-            href="#experience" 
+            href="#badges" 
             className="text-sm text-primary hover:underline inline-flex items-center gap-2"
           >
-            View my experience →
+            View badges & certifications →
           </a>
         </div>
       </div>

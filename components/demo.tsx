@@ -19,7 +19,7 @@ export default function Demo() {
 
       </div>
 
-      <div id="experience" className="relative">
+      <div id="badges" className="relative">
 
         <ExperiencePage />
 

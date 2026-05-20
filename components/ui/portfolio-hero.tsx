@@ -174,7 +174,7 @@ const BlurText: React.FC<BlurTextProps> = ({
 
 export default function Component() {
 
-  const [isDark, setIsDark] = useState(false);
+  const [isDark, setIsDark] = useState(true);
 
   const [isMenuOpen, setIsMenuOpen] = useState(false);
 
@@ -185,12 +185,8 @@ export default function Component() {
 
 
   useEffect(() => {
-
-    // Default to light mode, don't add dark class on mount
-
-    document.documentElement.classList.remove("dark");
-
-  }, []);
+    document.documentElement.classList.toggle("dark", isDark);
+  }, [isDark]);
 
 
 
@@ -254,7 +250,7 @@ export default function Component() {
 
     { label: "PROJECTS", href: "#projects" },
 
-    { label: "EXPERIENCE", href: "#experience" },
+    { label: "BADGES & CERTIFICATIONS", href: "#badges" },
 
     { label: "RESUME", href: "#contact-section" },
 
@@ -384,7 +380,7 @@ export default function Component() {
 
           <div className="text-4xl" style={{ color: isDark ? "hsl(0 0% 100%)" : "hsl(0 0% 10%)", fontFamily: "'Brush Script MT', 'Lucida Handwriting', cursive" }}>
 
-            A
+            S
 
           </div>
 
@@ -442,7 +438,7 @@ export default function Component() {
 
               <BlurText
 
-                text="ABHI"
+                text="SAHIL"
 
                 delay={100}
 
@@ -462,7 +458,7 @@ export default function Component() {
 
               <BlurText
 
-                text="NAIR"
+                text="ROSHAN"
 
                 delay={100}
 
@@ -514,7 +510,7 @@ export default function Component() {
 
             <BlurText
 
-              text="Designing human experiences in code."
+              text="Crafting virtual, augmented and robotic experiences for the real world."
 
               delay={150}
 

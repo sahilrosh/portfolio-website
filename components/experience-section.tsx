@@ -3,212 +3,216 @@
 import * as React from "react";
 import { useState } from "react";
 import { motion } from "framer-motion";
-import { 
-  Mail, 
-  Phone, 
-  MapPin, 
-  Send, 
-  Briefcase, 
-  Calendar,
-  Building,
+import {
+  Mail,
+  Phone,
+  MapPin,
+  Send,
   Award,
   Github,
   Linkedin,
-  Twitter,
-  Globe,
   CheckCircle2,
-  Moon,
-  Sun,
+  ExternalLink,
   FileText,
-  Download
 } from "lucide-react";
-import { cn } from "@/lib/utils";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Card } from "@/components/ui/card";
 import { Separator } from "@/components/ui/separator";
-import { Collapsible, CollapsibleContent, CollapsibleTrigger } from "@/components/ui/collapsible";
-import { Switch } from "@/components/ui/switch";
-
-// Theme Provider
-const ThemeContext = React.createContext<{
-  theme: "light" | "dark";
-  toggleTheme: () => void;
-}>({
-  theme: "light",
-  toggleTheme: () => {},
-});
-
-function ThemeProvider({ children }: { children: React.ReactNode }) {
-  const [theme, setTheme] = useState<"light" | "dark">("light");
-
-  const toggleTheme = () => {
-    setTheme((prev) => (prev === "light" ? "dark" : "light"));
-  };
-
-  React.useEffect(() => {
-    document.documentElement.classList.toggle("dark", theme === "dark");
-  }, [theme]);
-
-  return (
-    <ThemeContext.Provider value={{ theme, toggleTheme }}>
-      {children}
-    </ThemeContext.Provider>
-  );
-}
-
-function useTheme() {
-  return React.useContext(ThemeContext);
-}
-
-// Theme Toggle Component
-function ThemeToggle() {
-  const { theme, toggleTheme } = useTheme();
-
-  return (
-    <div className="flex items-center gap-2">
-      <Sun className="h-4 w-4 text-muted-foreground" />
-      <Switch
-        checked={theme === "dark"}
-        onCheckedChange={toggleTheme}
-        className="data-[state=checked]:bg-primary"
-      />
-      <Moon className="h-4 w-4 text-muted-foreground" />
-    </div>
-  );
-}
-
-// Experience Types
-interface ExperiencePosition {
+interface CredlyBadge {
   id: string;
   title: string;
-  employmentPeriod: string;
-  employmentType?: string;
-  description?: string;
-  skills?: string[];
-  isExpanded?: boolean;
+  credlyUrl: string;
+  /** Image or PDF under public/ (e.g. /badges/name.png or .pdf) */
+  previewSrc: string;
 }
 
-interface Experience {
+interface CertificateItem {
   id: string;
-  companyName: string;
-  companyLogo?: string;
-  positions: ExperiencePosition[];
-  isCurrentEmployer?: boolean;
+  title: string;
+  /** Shown inline when set (e.g. PNG under public/) */
+  imageSrc?: string;
+  /** Optional PDF for download / iframe when no image */
+  pdfPath?: string;
 }
 
-// Experience Section Component
-function ExperienceSection({ experiences }: { experiences: Experience[] }) {
+function isPdfPath(src: string) {
+  return src.toLowerCase().endsWith(".pdf");
+}
+
+function CredlyBadgeCard({
+  badge,
+  index,
+}: {
+  badge: CredlyBadge;
+  index: number;
+}) {
+  const [showRaster, setShowRaster] = React.useState(true);
+  const previewUrl = encodeURI(badge.previewSrc);
+  const pdf = isPdfPath(badge.previewSrc);
+
   return (
-    <section className="py-20 px-4 bg-background">
-      <div className="max-w-4xl mx-auto">
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+    >
+      <Card className="h-full overflow-hidden p-0 hover:shadow-lg transition-shadow">
+        <div className="flex flex-col h-full rounded-lg">
+          <div className="relative flex items-center justify-center bg-muted/40 dark:bg-muted/20 p-2 min-h-[200px]">
+            {pdf ? (
+              <iframe
+                title={badge.title}
+                src={previewUrl}
+                className="h-[200px] w-full rounded-md border-0 bg-neutral-100 dark:bg-neutral-900"
+              />
+            ) : showRaster ? (
+              <img
+                src={badge.previewSrc}
+                alt={badge.title}
+                className="max-h-[180px] w-auto max-w-full object-contain rounded-md shadow-sm"
+                onError={() => setShowRaster(false)}
+              />
+            ) : (
+              <div className="flex flex-col items-center justify-center gap-2 text-muted-foreground text-center px-4 py-8">
+                <Award className="w-14 h-14 opacity-70" aria-hidden />
+                <span className="text-xs">
+                  Add a preview at{" "}
+                  <code className="text-[10px] bg-muted px-1 py-0.5 rounded">
+                    public{badge.previewSrc}
+                  </code>
+                </span>
+              </div>
+            )}
+          </div>
+          <div className="p-5 flex flex-col flex-1 border-t border-border">
+            <h3 className="text-lg font-semibold text-foreground mb-3 leading-snug">
+              {badge.title}
+            </h3>
+            <a
+              href={badge.credlyUrl}
+              target="_blank"
+              rel="noopener noreferrer"
+              className="mt-auto inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2 rounded"
+            >
+              View on Credly
+              <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
+            </a>
+          </div>
+        </div>
+      </Card>
+    </motion.div>
+  );
+}
+
+function CertificateCard({
+  cert,
+  index,
+}: {
+  cert: CertificateItem;
+  index: number;
+}) {
+  const imageUrl = cert.imageSrc ? encodeURI(cert.imageSrc) : null;
+  const pdfUrl = cert.pdfPath ? encodeURI(cert.pdfPath) : null;
+
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 16 }}
+      animate={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.5, delay: index * 0.08 }}
+    >
+      <Card className="overflow-hidden p-0 h-full hover:shadow-lg transition-shadow flex flex-col">
+        <div className="p-5 pb-0 flex items-start gap-3">
+          <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center flex-shrink-0">
+            <FileText className="w-5 h-5 text-primary" aria-hidden />
+          </div>
+          <div className="flex-1 min-w-0">
+            <h3 className="text-lg font-semibold text-foreground leading-snug">
+              {cert.title}
+            </h3>
+            {pdfUrl ? (
+              <a
+                href={pdfUrl}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="mt-2 inline-flex items-center gap-1.5 text-sm font-medium text-primary hover:underline"
+              >
+                Download PDF
+                <ExternalLink className="w-4 h-4 shrink-0" aria-hidden />
+              </a>
+            ) : null}
+          </div>
+        </div>
+        <div className="p-4 pt-3 flex-1 min-h-0">
+          <div className="rounded-lg border border-border overflow-hidden bg-muted/30">
+            {imageUrl ? (
+              <img
+                src={imageUrl}
+                alt={cert.title}
+                className="w-full h-auto max-h-[min(70vh,720px)] object-contain object-top bg-neutral-100 dark:bg-neutral-950"
+              />
+            ) : pdfUrl ? (
+              <iframe
+                title={cert.title}
+                src={pdfUrl}
+                className="w-full min-h-[420px] h-[min(70vh,560px)] border-0 bg-neutral-100 dark:bg-neutral-950"
+              />
+            ) : null}
+          </div>
+        </div>
+      </Card>
+    </motion.div>
+  );
+}
+
+function BadgesSection({
+  badges,
+  certificates,
+}: {
+  badges: CredlyBadge[];
+  certificates: CertificateItem[];
+}) {
+  return (
+    <section id="badges-section" className="py-20 px-4 bg-background">
+      <div className="max-w-6xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           animate={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.5 }}
         >
           <h2 className="text-4xl md:text-5xl font-bold text-foreground mb-4">
-            Experience
+            Badges & Certifications
           </h2>
           <p className="text-muted-foreground mb-12 text-lg">
-            My professional journey and accomplishments
+            Credly-backed Unity credentials and downloadable certificates (AR,
+            VR, and essentials).
           </p>
         </motion.div>
 
-        <div className="space-y-8">
-          {experiences.map((experience, index) => (
-            <motion.div
-              key={experience.id}
-              initial={{ opacity: 0, x: -20 }}
-              animate={{ opacity: 1, x: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.1 }}
-            >
-              <Card className="p-6 hover:shadow-lg transition-shadow">
-                <div className="flex items-start gap-4 mb-6">
-                  <div className="flex-shrink-0">
-                    {experience.companyLogo ? (
-                      <img
-                        src={experience.companyLogo}
-                        alt={experience.companyName}
-                        className="w-12 h-12 rounded-full object-cover"
-                      />
-                    ) : (
-                      <div className="w-12 h-12 rounded-full bg-primary/10 flex items-center justify-center">
-                        <Building className="w-6 h-6 text-primary" />
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex-1">
-                    <div className="flex items-center gap-2">
-                      <h3 className="text-xl font-semibold text-foreground">
-                        {experience.companyName}
-                      </h3>
-                      {experience.isCurrentEmployer && (
-                        <span className="relative flex h-3 w-3">
-                          <span className="animate-ping absolute inline-flex h-full w-full rounded-full bg-primary opacity-75"></span>
-                          <span className="relative inline-flex rounded-full h-3 w-3 bg-primary"></span>
-                        </span>
-                      )}
-                    </div>
-                  </div>
-                </div>
+        <motion.h3
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-xl font-semibold text-foreground mb-6 tracking-tight"
+        >
+          Badges
+        </motion.h3>
+        <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6 mb-16">
+          {badges.map((badge, index) => (
+            <CredlyBadgeCard key={badge.id} badge={badge} index={index} />
+          ))}
+        </div>
 
-                <div className="space-y-4">
-                  {experience.positions.map((position) => (
-                    <Collapsible
-                      key={position.id}
-                      defaultOpen={position.isExpanded}
-                    >
-                      <div className="border-l-2 border-border pl-4">
-                        <CollapsibleTrigger className="w-full text-left group">
-                          <div className="flex items-start justify-between gap-4">
-                            <div className="flex-1">
-                              <h4 className="font-medium text-foreground group-hover:text-primary transition-colors">
-                                {position.title}
-                              </h4>
-                              <div className="flex items-center gap-2 text-sm text-muted-foreground mt-1">
-                                {position.employmentType && (
-                                  <>
-                                    <span>{position.employmentType}</span>
-                                    <Separator orientation="vertical" className="h-4" />
-                                  </>
-                                )}
-                                <span className="flex items-center gap-1">
-                                  <Calendar className="w-3 h-3" />
-                                  {position.employmentPeriod}
-                                </span>
-                              </div>
-                            </div>
-                            <Briefcase className="w-4 h-4 text-muted-foreground flex-shrink-0 mt-1" />
-                          </div>
-                        </CollapsibleTrigger>
-
-                        <CollapsibleContent className="mt-4">
-                          {position.description && (
-                            <p className="text-sm text-muted-foreground mb-4 whitespace-pre-line">
-                              {position.description}
-                            </p>
-                          )}
-                          {position.skills && position.skills.length > 0 && (
-                            <div className="flex flex-wrap gap-2">
-                              {position.skills.map((skill, idx) => (
-                                <span
-                                  key={idx}
-                                  className="inline-flex items-center rounded-lg border bg-muted/50 px-2 py-1 text-xs text-muted-foreground"
-                                >
-                                  {skill}
-                                </span>
-                              ))}
-                            </div>
-                          )}
-                        </CollapsibleContent>
-                      </div>
-                    </Collapsible>
-                  ))}
-                </div>
-              </Card>
-            </motion.div>
+        <motion.h3
+          initial={{ opacity: 0, y: 8 }}
+          animate={{ opacity: 1, y: 0 }}
+          className="text-xl font-semibold text-foreground mb-6 tracking-tight"
+        >
+          Certificates
+        </motion.h3>
+        <div className="grid sm:grid-cols-2 gap-6">
+          {certificates.map((cert, index) => (
+            <CertificateCard key={cert.id} cert={cert} index={index} />
           ))}
         </div>
       </div>
@@ -306,10 +310,10 @@ function ContactSection() {
                   <div>
                     <p className="font-medium text-foreground">Email</p>
                     <a
-                      href="mailto:abinair314@gmail.com"
+                      href="mailto:sahil8055roshan@gmail.com"
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
-                      abinair314@gmail.com
+                      sahil8055roshan@gmail.com
                     </a>
                   </div>
                 </div>
@@ -321,10 +325,10 @@ function ContactSection() {
                   <div>
                     <p className="font-medium text-foreground">Phone</p>
                     <a
-                      href="tel:+1234567890"
+                      href="tel:+919880700801"
                       className="text-muted-foreground hover:text-primary transition-colors"
                     >
-                      +91 7349723145
+                      +91 9880700801
                     </a>
                   </div>
                 </div>
@@ -350,8 +354,8 @@ function ContactSection() {
                 </h4>
                 <div className="flex gap-3 items-center">
                   {[
-                    { icon: Github, href: "https://github.com/hea7hen/" },
-                    { icon: Linkedin, href: "https://www.linkedin.com/in/abhishek-nair-302235211/" },
+                    { icon: Github, href: "https://github.com/sahilrosh" },
+                    { icon: Linkedin, href: "https://www.linkedin.com/in/sahil-roshan-299469286/" },
                   ].map((social, idx) => (
                     <a
                       key={idx}
@@ -363,7 +367,7 @@ function ContactSection() {
                   ))}
                   <a
                     href="/resume.pdf"
-                    download="Abhishek_Nair_Resume.pdf"
+                    download="Sahil_Roshan_Resume.pdf"
                     className="ml-auto text-sm text-muted-foreground hover:text-primary transition-colors underline"
                   > <b>
                     Download Resume
@@ -484,48 +488,44 @@ function ContactSection() {
   );
 }
 
+const CREDLY_BADGES: CredlyBadge[] = [
+  {
+    id: "unity-vr",
+    title: "Unity VR Development",
+    credlyUrl:
+      "https://www.credly.com/badges/44a15bfa-387a-4d5a-bd84-0f505d3e581e/public_url",
+    previewSrc: "/badges/Unity VR Development.pdf",
+  },
+  {
+    id: "unity-mobile-ar",
+    title: "Unity Mobile AR Development",
+    credlyUrl:
+      "https://www.credly.com/badges/7fec38ba-8417-477f-807f-9aa9fc21a6f8/public_url",
+    previewSrc: "/badges/Unity Mobile AR Development.pdf",
+  },
+  {
+    id: "unity-essentials",
+    title: "Unity Essentials",
+    credlyUrl:
+      "https://www.credly.com/badges/2564f6e5-b513-48ad-ae15-b7cb2ea7ee64/public_url",
+    previewSrc: "/badges/Unity Essentials.pdf",
+  },
+];
+
+const CERTIFICATES: CertificateItem[] = [
+  {
+    id: "unity-certified-associate",
+    title: "Unity Certified Associate",
+    imageSrc: "/Certificates/unity certificate associate.png",
+    pdfPath: "/Certificates/Unity Certified Associate.pdf",
+  },
+];
+
 // Main Experience Component
 export function ExperiencePage() {
-  const experiences: Experience[] = [
-    {
-      id: "1",
-      companyName: "Subscribili",
-      companyLogo: "/images/subscribili.png",
-      positions: [
-        {
-          id: "1-1",
-          title: "Software Engineering Intern",
-          employmentPeriod: "May 2025 — October 2025",
-          employmentType: "Onsite",
-          description: "US Based Healthcare Technology Startup\n\n• Designed and implemented a multi-tenant web application using Strapi CMS, enabling fast deployment of localized websites for multiple clients; added support for Spanish and Mexican Spanish locales and optimized performance by migrating from SQLite to PostgreSQL.\n\n• Integrated Affirm Buy Now, Pay Later functionality via the Stripe API, delivering a seamless checkout experience with React/Redux state management for payment callbacks, loading states, and transaction validation.\n\n• Developed a real-time, vendor-agnostic monitoring system to track the health of EMR integrations (Dentrix, Eaglesoft, OpenDental), reducing manual monitoring by 90%. Implemented using Python, AWS EventBridge, SQS, and SendGrid for automated daily reports.\n\n• Designed an AWS-based secure credential management system leveraging Secrets Manager with KMS encryption, IAM role-based access control, and ECS Fargate for scalable, HIPAA-compliant data synchronization.\n\n• Built a self-service client portal enabling independent configuration of subscription plans, reducing plan creation time from hours to under 15 minutes.",
-          skills: ["Strapi CMS", "React", "Redux", "PostgreSQL", "Stripe API", "Python", "AWS", "EventBridge", "SQS", "SendGrid", "KMS", "IAM", "ECS Fargate", "HIPAA"],
-          isExpanded: true,
-        },
-      ],
-      isCurrentEmployer: false,
-    },
-    {
-      id: "2",
-      companyName: "Robin Hood Army (RHA) Bangalore",
-      companyLogo: "/images/robinhood.png",
-      positions: [
-        {
-          id: "2-1",
-          title: "Academy Representative",
-          employmentPeriod: "February 2025 — Present",
-          employmentType: "Non-Profit Organization",
-          description: "Bangalore, India\n\n• Represent and manage the academic wing of RHA Bangalore as part of the Robin Hood Academy initiative\n\n• RHA's Academy program has empowered over 7,328 students across India and facilitated more than 12,348 school admissions for underserved children, with efforts spanning multiple cities\n\n• Oversee local academic activities including admissions processes and educational events; personally teach mathematics to primary students at Government School, Appareddy Palaya (Indiranagar), and work with volunteers and school administrators to address academic issues and implement solutions that enhance learning programs and improve student comprehension",
-          skills: ["Education", "Community Outreach", "Volunteer Management", "Teaching", "Program Management", "Student Admissions", "Academic Administration"],
-          isExpanded: true,
-        },
-      ],
-      isCurrentEmployer: true,
-    },
-  ];
-
   return (
     <div className="min-h-screen bg-background">
-      <ExperienceSection experiences={experiences} />
+      <BadgesSection badges={CREDLY_BADGES} certificates={CERTIFICATES} />
       <ContactSection />
     </div>
   );

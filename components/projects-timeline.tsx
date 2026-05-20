@@ -1,175 +1,134 @@
 "use client";
 
-import Image from "next/image";
 import React from "react";
 import { Timeline } from "@/components/ui/timeline";
+
+function ProjectDemoVideo({ src, title }: { src: string; title: string }) {
+  const url = encodeURI(src);
+  return (
+    <div className="mt-6 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-black shadow-[0_0_24px_rgba(34,_42,_53,_0.06)]">
+      <video
+        className="w-full aspect-video object-contain"
+        controls
+        playsInline
+        preload="metadata"
+        title={title}
+      >
+        <source src={url} type="video/mp4" />
+        Your browser does not support the video tag.
+      </video>
+    </div>
+  );
+}
 
 export function ProjectsTimeline() {
   const data = [
     {
-      title: "November 2025",
+      title: "Sushi Menu",
       content: (
         <div>
-          <div className="mb-8">
+          <div className="mb-6">
             <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-              GYMMER — Gym Discovery Platform
+              SushiMenu
             </h3>
-            <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-4">November 2025 • Personal Project</p>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-4">Augmented Reality Project • Unity + Vuforia</p>
             <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal space-y-2 mb-4 list-disc list-inside">
-              <li>Developed a city-wide gym discovery platform for Bangalore, enabling users to explore and compare 90+ verified independent gyms with accurate pricing, amenities, images, and contact details, improving discovery beyond large commercial chains.</li>
-              <li>Integrated a subscription-based paywall using Razorpay, implementing secure payments, subscription lifecycle logic, webhook validation, and role-based premium access.</li>
-              <li>Built a full-stack system with React, TypeScript, and Vite frontend, and Firebase (Firestore, Authentication, Storage) backend, featuring advanced search filters including neighborhood-based search, price sliders, and amenities selection.</li>
-              <li>Developed an admin dashboard supporting bulk gym management, CSV import/export, Firebase Storage image handling, and analytics tracking for impressions and contact clicks.</li>
-              <li>Implemented a responsive, mobile-first interface using Tailwind CSS and real-time synchronization with React Query for caching, background refresh, and fast UX.</li>
+              <li>Built an image-target AR sushi menu where 3D food models appear when users scan printed menu markers.</li>
+              <li>Integrated Vuforia tracking to anchor content on multiple targets including salmon sushi, veg sushi, and sushi combo.</li>
+              <li>Implemented gesture-based interaction for mobile using Lean Touch and configured the project for Android builds.</li>
             </ul>
+            <ProjectDemoVideo
+              src="/project videos/screen_recording_sushi_menu.mp4"
+              title="SushiMenu screen recording"
+            />
             <div className="mb-4">
               <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                <span className="font-medium">Live Demo:</span>{" "}
-                <a href="https://gymmer-pied.vercel.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  gymmer.vercel.app
-                </a>
-                {" • "}
                 <span className="font-medium">Source:</span>{" "}
-                <a href="https://github.com/hea7hen/Gymmer" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  github.com/hea7hen/Gymmer
+                <a href="https://github.com/sahilrosh/Sushi-Menu" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  github.com/sahilrosh/Sushi-Menu
                 </a>
               </p>
             </div>
             <div className="flex gap-2 flex-wrap">
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">React</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">TypeScript</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Vite</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Firebase</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Razorpay</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">React Query</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Tailwind CSS</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Unity 6</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Vuforia Engine</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Lean Touch</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">TextMesh Pro</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Android</span>
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Image 
-              src="/images/gymmer-1.png" 
-              alt="GYMMER - Gym Discovery" 
-              width={500} 
-              height={500} 
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]" 
-            />
-            <Image 
-              src="/images/gymmer-2.png" 
-              alt="GYMMER - Pricing" 
-              width={500} 
-              height={500} 
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]" 
-            />
           </div>
         </div>
       ),
     },
     {
-      title: "June 2025",
+      title: "VR Rage Room",
       content: (
         <div>
-          <div className="mb-8">
+          <div className="mb-6">
             <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-              SnackDash — Campus Food Delivery Platform
+              RageRoom
             </h3>
             <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-4">
-              June 2025 •{" "}
-              
+              Virtual Reality Project • Unity + Meta Quest
             </p>
             <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal space-y-2 mb-6 list-disc list-inside">
-              <li>Developed a peer-to-peer food delivery platform for college campuses, enabling students to order from on-campus vendors and earn money as couriers, addressing last-mile delivery in closed-campus environments.</li>
-              <li>Built a full-stack application using Next.js and Firebase, implementing real-time order tracking, push notifications, and secure authentication with role-based access for customers and delivery partners.</li>
-              <li>Designed a dual-sided marketplace with an order management system, courier matching algorithm, and payment integration for seamless transactions and fee distribution.</li>
-              <li>Implemented responsive UI with real-time updates using Firebase Realtime Database, enabling live order status tracking and instant notifications for order placement, acceptance, and delivery.</li>
+              <li>Created a VR destruction sandbox where objects break only when impact force crosses a hard-hit threshold.</li>
+              <li>Added debris fade-out effects, impact particles, and haptic feedback to improve immersion on Meta Quest.</li>
+              <li>Implemented score tracking and destruction logic with physics-based interactions in Unity.</li>
             </ul>
+            <ProjectDemoVideo
+              src="/project videos/Screen Recording_rage_room.mp4"
+              title="RageRoom screen recording"
+            />
             <div className="mb-4">
               <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                <span className="font-medium">Live Demo:</span>{" "}
-                <a href="https://campus-food-delivery-service.vercel.app/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                Live Demo
-              </a>
-              {" • "}
                 <span className="font-medium">Source:</span>{" "}
-                <a href="https://github.com/hea7hen/" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  github.com/hea7hen/snackdash
+                <a href="https://github.com/sahilrosh/VR-Rage-Room" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  github.com/sahilrosh/VR-Rage-Room
                 </a>
               </p>
             </div>
             <div className="flex gap-2 flex-wrap">
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Next.js</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Firebase</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Real-time Database</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Push Notifications</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Unity 2022 LTS</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">OpenXR</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Meta XR SDK</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">XR Interaction Toolkit</span>
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Image 
-              src="/images/snackdash-1.png" 
-              alt="SnackDash - Food Delivery" 
-              width={500} 
-              height={500} 
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]" 
-            />
-            <Image 
-              src="/images/snackdash-2.png" 
-              alt="SnackDash - Order Tracking" 
-              width={500} 
-              height={500} 
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]" 
-            />
           </div>
         </div>
       ),
     },
     {
-      title: "December 2024",
+      title: "POPIT",
       content: (
         <div>
-          <div className="mb-8">
+          <div className="mb-6">
             <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
-              Full Stack API Book Certification
+              POPIT
             </h3>
-            <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-4">December 2024 • Personal Project</p>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-4">AR popping game • Unity</p>
             <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal space-y-2 mb-4 list-disc list-inside">
-              <li>Developed a platform for issuing verifiable digital certifications for book completion, enabling seamless digital credentialing and transparency.</li>
-              <li>Engineered a secure credentialing system using unique salted verification codes and timestamp validation to ensure authenticity, simulating blockchain-level immutability.</li>
-              <li>Built a full-stack application with Next.js and Tailwind CSS, integrated Google Books API for metadata retrieval, and leveraged Firebase Authentication and Firestore for storage.</li>
+              <li>Light AR popping game for a quick mental break—simple targets to clear and reset your focus.</li>
+              <li>Crosshair aiming with click-to-shoot input so every tap lines up with what you are looking at.</li>
+              <li>Spawn points drive target generation so waves feel varied while staying easy to tune in the scene.</li>
             </ul>
+            <ProjectDemoVideo
+              src="/project videos/ScreenRecording_popit.mp4"
+              title="POPIT screen recording"
+            />
             <div className="mb-4">
               <p className="text-xs text-neutral-600 dark:text-neutral-400">
-                <span className="font-medium">Live Demo:</span>{" "}
-                <a href="https://u4rsnob0spemqbtx.vercel.app" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  u4rsnob0spemqbtx.vercel.app
-                </a>
-                {" • "}
                 <span className="font-medium">Source:</span>{" "}
-                <a href="https://github.com/hea7hen/BookCert" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
-                  github.com/hea7hen/BookCert
+                <a href="https://github.com/sahilrosh/POPIT" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  github.com/sahilrosh/POPIT
                 </a>
               </p>
             </div>
             <div className="flex gap-2 flex-wrap">
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Next.js</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Firebase</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Google Books API</span>
-              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Tailwind CSS</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Unity</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">C#</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">ShaderLab</span>
             </div>
-          </div>
-          <div className="grid grid-cols-2 gap-4">
-            <Image 
-              src="/images/bookcert-1.png" 
-              alt="BookCert - Explore Books" 
-              width={500} 
-              height={500} 
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]" 
-            />
-            <Image 
-              src="/images/bookcer-2.png" 
-              alt="BookCert - Popular Books" 
-              width={500} 
-              height={500} 
-              className="rounded-lg object-cover h-20 md:h-44 lg:h-60 w-full shadow-[0_0_24px_rgba(34,_42,_53,_0.06),_0_1px_1px_rgba(0,_0,_0,_0.05),_0_0_0_1px_rgba(34,_42,_53,_0.04),_0_0_4px_rgba(34,_42,_53,_0.08),_0_16px_68px_rgba(47,_48,_55,_0.05),_0_1px_0_rgba(255,_255,_255,_0.1)_inset]" 
-            />
           </div>
         </div>
       ),
