@@ -9,9 +9,10 @@ function ProjectDemoVideo({ src, title }: { src: string; title: string }) {
     <div className="mt-6 rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-black shadow-[0_0_24px_rgba(34,_42,_53,_0.06)]">
       <video
         className="w-full aspect-video object-contain"
-        controls
+        autoPlay
+        muted
+        loop
         playsInline
-        preload="metadata"
         title={title}
       >
         <source src={url} type="video/mp4" />
@@ -21,8 +22,93 @@ function ProjectDemoVideo({ src, title }: { src: string; title: string }) {
   );
 }
 
+function ProjectDemoGif({ src, title, label }: { src: string; title: string; label?: string }) {
+  const url = encodeURI(src);
+  return (
+    <div className="rounded-lg overflow-hidden border border-neutral-200 dark:border-neutral-800 bg-black shadow-[0_0_24px_rgba(34,_42,_53,_0.06)] relative">
+      {/* eslint-disable-next-line @next/next/no-img-element */}
+      <img
+        src={url}
+        alt={title}
+        className="w-full h-auto object-contain"
+      />
+      {label && (
+        <div className="absolute bottom-2 left-2 bg-black/60 text-white text-xs px-2 py-1 rounded backdrop-blur-sm">
+          {label}
+        </div>
+      )}
+    </div>
+  );
+}
+
 export function ProjectsTimeline() {
   const data = [
+    {
+      title: "VR Home",
+      content: (
+        <div>
+          <div className="mb-6">
+            <h3 className="text-xl font-semibold text-neutral-900 dark:text-neutral-100 mb-2">
+              VR Home
+            </h3>
+            <p className="text-xs text-neutral-600 dark:text-neutral-400 mb-4">Virtual Reality Project • Unity + Meta Quest</p>
+            <ul className="text-neutral-800 dark:text-neutral-200 text-xs md:text-sm font-normal space-y-2 mb-6 list-disc list-inside">
+              <li>Built an immersive VR home experience with multiple themed rooms — green, blue, and pink — each with unique atmosphere and lighting.</li>
+              <li>Designed interactive VR environments optimised for Meta Quest with natural locomotion and room-scale exploration.</li>
+              <li>Implemented dynamic room transitions and environmental storytelling using Unity&apos;s XR Interaction Toolkit.</li>
+            </ul>
+
+            {/* Demo 1 — main walkthrough at 1.5× speed */}
+            <div className="mb-4">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-2 font-medium uppercase tracking-wide">Full Walkthrough Demo</p>
+              <ProjectDemoGif
+                src="/project videos/vr-home/demo1.gif"
+                title="VR Home full walkthrough demo"
+              />
+            </div>
+
+
+            {/* Room Showcase — 3 rooms in a row */}
+            <div className="mb-6">
+              <p className="text-xs text-neutral-500 dark:text-neutral-400 mb-2 font-medium uppercase tracking-wide">Room Showcase</p>
+              <div className="grid grid-cols-3 gap-2">
+                <ProjectDemoGif
+                  src="/project videos/vr-home/green_room.gif"
+                  title="VR Home green room"
+                  label="🟢 Green Room"
+                />
+                <ProjectDemoGif
+                  src="/project videos/vr-home/blue_room.gif"
+                  title="VR Home blue room"
+                  label="🔵 Blue Room"
+                />
+                <ProjectDemoGif
+                  src="/project videos/vr-home/red_room.gif"
+                  title="VR Home red room"
+                  label="🔴 Red Room"
+                />
+              </div>
+            </div>
+
+            <div className="mb-4">
+              <p className="text-xs text-neutral-600 dark:text-neutral-400">
+                <span className="font-medium">Source:</span>{" "}
+                <a href="https://github.com/sahilrosh/VR-Home" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">
+                  github.com/sahilrosh/VR-Home
+                </a>
+              </p>
+            </div>
+            <div className="flex gap-2 flex-wrap">
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Unity</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">Meta Quest</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">OpenXR</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">XR Interaction Toolkit</span>
+              <span className="text-xs px-2 py-1 bg-neutral-100 dark:bg-neutral-800 rounded text-neutral-700 dark:text-neutral-300">C#</span>
+            </div>
+          </div>
+        </div>
+      ),
+    },
     {
       title: "Sushi Menu",
       content: (

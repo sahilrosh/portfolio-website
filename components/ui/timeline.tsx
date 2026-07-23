@@ -35,7 +35,7 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
           Projects from my journey
         </h2>
         <p className="text-neutral-700 dark:text-neutral-300 text-sm md:text-base max-w-sm">
-          A collection of projects I&apos;ve built over the years. Here&apos;s a timeline of my work.
+          A collection of projects I&apos;ve built. Here&apos;s a Demo of my work.
         </p>
         <div className="mt-6">
           <a 

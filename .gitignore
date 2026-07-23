@@ -34,3 +34,8 @@ yarn-error.log*
 *.tsbuildinfo
 next-env.d.ts
 
+
+# large source video files (raw recordings — use GIFs in public/ instead)
+*.MOV
+*.mov
+public/IMG_*.MOV
