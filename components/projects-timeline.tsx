@@ -85,7 +85,7 @@ export function ProjectsTimeline() {
                 <ProjectDemoGif
                   src="/project videos/vr-home/red_room.gif"
                   title="VR Home red room"
-                  label="🔴 Red Room"
+                  label="🔴 Pink Room"
                 />
               </div>
             </div>
