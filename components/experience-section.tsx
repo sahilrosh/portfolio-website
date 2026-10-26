@@ -490,11 +490,10 @@ function ContactSection() {
 
 const CREDLY_BADGES: CredlyBadge[] = [
   {
-    id: "unity-vr",
-    title: "Unity VR Development",
-    credlyUrl:
-      "https://www.credly.com/badges/44a15bfa-387a-4d5a-bd84-0f505d3e581e/public_url",
-    previewSrc: "/badges/Unity VR Development.pdf",
+    id: "unity-certified-associate-game-developer",
+    title: "Unity Certified Associate: Game Developer",
+    credlyUrl: "https://www.credly.com/go/UWIy51YH",
+    previewSrc: "/badges/Unity Certified Associate Game Developer.pdf",
   },
   {
     id: "unity-mobile-ar",
@@ -504,15 +503,40 @@ const CREDLY_BADGES: CredlyBadge[] = [
     previewSrc: "/badges/Unity Mobile AR Development.pdf",
   },
   {
+    id: "unity-vr",
+    title: "Unity VR Development",
+    credlyUrl:
+      "https://www.credly.com/badges/44a15bfa-387a-4d5a-bd84-0f505d3e581e/public_url",
+    previewSrc: "/badges/Unity VR Development.pdf",
+  },
+  {
     id: "unity-essentials",
     title: "Unity Essentials",
     credlyUrl:
       "https://www.credly.com/badges/2564f6e5-b513-48ad-ae15-b7cb2ea7ee64/public_url",
     previewSrc: "/badges/Unity Essentials.pdf",
   },
+  {
+    id: "unity-creative-core",
+    title: "Unity Creative Core",
+    credlyUrl: "https://www.credly.com/go/6foiL9Iq",
+    previewSrc: "/badges/Unity Creative Core.pdf",
+  },
+  {
+    id: "unity-junior-programmer",
+    title: "Unity Junior Programmer",
+    credlyUrl: "https://www.credly.com/go/dsFx4O8O",
+    previewSrc: "/badges/Unity Junior Programmer.pdf",
+  },
 ];
 
 const CERTIFICATES: CertificateItem[] = [
+  {
+    id: "game-developer",
+    title: "Game Developer",
+    imageSrc: "/Certificates/game-developer-certificate.png",
+    pdfPath: "/Certificates/Game Developer certificate.pdf",
+  },
   {
     id: "unity-certified-associate",
     title: "Unity Certified Associate",
