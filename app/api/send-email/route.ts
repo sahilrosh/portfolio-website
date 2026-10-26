@@ -1,6 +1,8 @@
 import { Resend } from "resend";
 import { NextRequest, NextResponse } from "next/server";
 
+const CONTACT_EMAIL = "sahil8055roshan@gmail.com";
+
 export async function POST(request: NextRequest) {
   try {
     const body = await request.json();
@@ -41,7 +43,8 @@ export async function POST(request: NextRequest) {
     // Get your API key from https://resend.com/api-keys
     const { data, error } = await resend.emails.send({
       from: process.env.RESEND_FROM_EMAIL || "Portfolio Contact <onboarding@resend.dev>", // Use your verified domain email
-      to: [email], // Send to the email entered in the form
+      to: [CONTACT_EMAIL],
+      replyTo: email,
       subject: subject,
       html: `
         <div style="font-family: Arial, sans-serif; max-width: 600px; margin: 0 auto;">

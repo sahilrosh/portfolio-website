@@ -97,7 +97,7 @@ The contact form sends emails using Resend. To enable email functionality:
 
 4. **Restart your development server** after adding the environment variables
 
-The contact form will send emails to the email address entered in the form with the subject and message body.
+The contact form sends submissions to `sahil8055roshan@gmail.com`. The visitor's email address is set as Reply-To so you can respond directly. Configure `RESEND_API_KEY` and a verified `RESEND_FROM_EMAIL` for the API route to send messages.
 
 ## Customization
 
